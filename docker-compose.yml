@@ -1,0 +1,23 @@
+version: "3.7"
+services:
+  rabbit:
+    image: "rabbitmq:3-management"
+    hostname: "rabbit"
+    ports:
+      - 15672:15672
+      - 5672:5672
+    labels:
+      NAME: "rabbitmq"
+  mongo:
+    image: "mongo"
+    ports:
+    - "27017:27017"
+  consumer:
+    image: "consumer"
+    hostname: "consumer"
+    environment:
+      RABBIT_URL: "amqp://guest:guest@rabbit:5672"
+      MONGO_URL: "mongodb://mongo:27017"
+      WAIT_HOSTS: rabbit:5672, mongo:27017
+
+    
