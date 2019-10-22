@@ -111,6 +111,24 @@ func TestService(t *testing.T) {
 		require.Equal(t, resolveEvent.Crit, alert.Crit)
 		require.Equal(t, resolveEvent.Timestamp, alert.LastTime)
 	})
+
+	t.Run("alert must be ongoing again", func(t *testing.T) {
+		sendEventToQueue(&event)
+		time.Sleep(time.Second)
+
+		alert, err := repo.FindAlert(context.TODO(), event.Component, event.Resource, model.StatusOngoing)
+		require.NoError(t, err)
+		require.NotNil(t, alert)
+
+		require.Equal(t, event.Component, alert.Component)
+		require.Equal(t, event.Resource, alert.Resource)
+		require.Equal(t, event.Timestamp, alert.StartTime)
+		require.Equal(t, event.Timestamp, alert.LastTime)
+		require.Equal(t, event.Message, alert.LastMessage)
+		require.Equal(t, event.Message, alert.FirstMessage)
+		require.Equal(t, model.StatusOngoing, alert.Status)
+		require.Equal(t, event.Crit, alert.Crit)
+	})
 }
 
 func sendEventToQueue(event *model.Event) {

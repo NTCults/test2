@@ -1,5 +1,5 @@
 build-consumer-image:
-	docker build -t consumer .
+	docker build -t consumer -f ./build/Dockerfile .
 
 build-sender:
 	go build -o ./snd ./sender
@@ -37,3 +37,9 @@ lint:
 		--enable stylecheck \
 		--enable nakedret \
 		./...
+
+compose-up:
+	docker-compose -f ./build/docker-compose.yml up
+
+compose-down:
+	docker-compose -f ./build/docker-compose.yml down

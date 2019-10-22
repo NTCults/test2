@@ -62,6 +62,7 @@ require (
 	go.mongodb.org/mongo-driver v1.1.2
 	go.opencensus.io v0.22.1 // indirect
 	go.uber.org/multierr v1.2.0 // indirect
+	go.uber.org/zap v1.11.0 // indirect
 	golang.org/x/crypto v0.0.0-20191011191535-87dc89f01550 // indirect
 	golang.org/x/exp v0.0.0-20191014171548-69215a2ee97e // indirect
 	golang.org/x/image v0.0.0-20191009234506-e7c1f5e7dbb8 // indirect
@@ -70,7 +71,7 @@ require (
 	golang.org/x/sync v0.0.0-20190911185100-cd5d95a43a6e // indirect
 	golang.org/x/sys v0.0.0-20191020212454-3e7259c5e7c2 // indirect
 	golang.org/x/time v0.0.0-20190921001708-c4c64cad1fd0 // indirect
-	golang.org/x/tools v0.0.0-20191021195444-a0af95a55c89 // indirect
+	golang.org/x/tools v0.0.0-20191022074931-774d2ec196ee // indirect
 	golang.org/x/xerrors v0.0.0-20191011141410-1b5146add898 // indirect
 	google.golang.org/appengine v1.6.5 // indirect
 	google.golang.org/grpc v1.24.0 // indirect

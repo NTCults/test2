@@ -55,12 +55,14 @@ func (q *Queue) subscribe(queueURL string) {
 }
 
 // Listen starts main loop of the application.
-// IMPORTANT NOTE: does not suspend the main goroutine
+// IMPORTANT NOTE: does not suspend execution of the main goroutine
 func (q *Queue) Listen() {
 	go func() {
 		for d := range q.msgs {
 			err := q.handleMessage(d.Body)
 			if err != nil {
+				// in the current implementation, messages are considered
+				// acked regardless of service errors
 				q.log.WithError(err).
 					WithField("message", d).
 					Error("error on handling message")

@@ -23,7 +23,7 @@ func NewService(repo Repo, log logrus.FieldLogger) Service {
 	}
 }
 
-// HandleEvent contains core logic of the service
+// HandleEvent performs event processing
 func (s *service) HandleEvent(event *model.Event) error {
 	ctx, cancelCtx := context.WithTimeout(context.Background(), defaultContextTimeout)
 	defer cancelCtx()
@@ -31,26 +31,30 @@ func (s *service) HandleEvent(event *model.Event) error {
 	s.log.WithField("event", event).
 		Debug("event has been received")
 
+	// trying find entry about ongoing alert for component/resource couple in reposytory
 	alert, err := s.repo.FindAlert(ctx, event.Component, event.Resource, model.StatusOngoing)
 	if err != nil {
 		return err
 	}
 
+	// if entry does not esist
 	if alert == nil {
-		// skip Event because it's crit value is equal to zero
+		// skip event because it's crit value is equal to zero
 		if event.Crit < 0 {
 			return nil
 		}
-		// create new Alert entry in repo
+		// otherwise create new entry in repo
 		return s.createAlert(ctx, event)
 	}
 
-	// update existing Alert entry
+	// in case corresponding entry exist in repository
+
+	// update alert entry because event crit level is greater than zero
 	if (alert.IsOngoing()) && (event.Crit > 0) {
 		return s.updateAlert(ctx, alert, event)
 	}
 
-	// mark Alert as resolved because it's crit value evaluated zero
+	// mark alert as resolved because it's crit value evaluated zero
 	if (alert.IsOngoing()) && (event.Crit == 0) {
 		return s.markAlertAsResolved(ctx, alert, event)
 	}

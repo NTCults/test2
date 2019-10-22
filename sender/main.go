@@ -20,12 +20,12 @@ func main() {
 	defer ch.Close()
 
 	q, err := ch.QueueDeclare(
-		"test.queue", // name
-		true,         // durable
-		false,        // delete when usused
-		false,        // exclusive
-		false,        // no-wait
-		nil,          // arguments
+		"Alarm", // name
+		true,    // durable
+		false,   // delete when usused
+		false,   // exclusive
+		false,   // no-wait
+		nil,     // arguments
 	)
 	checkError(err)
 
